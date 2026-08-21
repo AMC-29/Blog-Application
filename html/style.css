@@ -457,24 +457,88 @@ nav a:hover {
 /* =========================================
    AUTHENTICATION
 ========================================= */
-
 .auth-page {
+    position: relative;
     min-height: 100vh;
+    overflow: hidden;
 
     display: flex;
-
-    align-items: center;
-
     justify-content: center;
+    align-items: center;
+}
 
-    background: #f1f5f9;
+/* Background carousel */
+.background-carousel {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.background-slide {
+    position: absolute;
+    inset: 0;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    opacity: 0;
+    animation: carousel 15s infinite;
+}
+
+/* Images */
+.slide-1 {
+    background-image: url("images/auth/bg1.png");
+    animation-delay: 0s;
+}
+
+.slide-2 {
+    background-image: url("images/auth/bg2.png");
+    animation-delay: 5s;
+}
+
+.slide-3 {
+    background-image: url("images/auth/bg3.png");
+    animation-delay: 10s;
+}
+
+.auth-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(135, 206, 235, 0.18);
+
+    z-index: 1;
 }
 
 
+/* Login/Register form */
 .auth-container {
-    width: 90%;
+    position: relative;
+    z-index: 2;
+}
 
-    max-width: 450px;
+@keyframes carousel {
+
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 
