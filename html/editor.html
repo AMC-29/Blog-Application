@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BlogSpace - Blog Editor</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo">
+                Blog<span>Space</span>
+            </a>
+
+            <nav>
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <button id="logoutBtn" class="logout-btn">
+                    Logout
+                </button>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- Editor -->
+
+    <main class="container editor-page">
+
+        <div class="editor-header">
+
+            <div>
+
+                <h1 id="editorTitle">
+                    Create New Blog
+                </h1>
+
+                <p>
+                    Share your thoughts with the community.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="editorMessage" class="message hidden"></div>
+
+
+        <form id="blogForm" class="editor-form">
+
+            <div class="form-group">
+
+                <label for="blogTitle">
+                    Blog Title
+                </label>
+
+                <input
+                    type="text"
+                    id="blogTitle"
+                    placeholder="Enter your blog title"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="blogContent">
+                    Blog Content
+                </label>
+
+                <textarea
+                    id="blogContent"
+                    placeholder="Write your blog here...
+
+You can use simple Markdown:
+
+# Heading
+**Bold text**
+*Italic text*
+- List item"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- Preview -->
+
+            <div class="preview-section">
+
+                <h3>
+                    Preview
+                </h3>
+
+                <div
+                    id="markdownPreview"
+                    class="markdown-preview"
+                >
+                    Your blog preview will appear here.
+                </div>
+
+            </div>
+
+
+            <div class="editor-actions">
+
+                <a
+                    href="index.html"
+                    class="secondary-btn"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    <span id="saveButtonText">
+                        Publish Blog
+                    </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <script src="js/auth.js"></script>
+    <script src="js/editor.js"></script>
+
+</body>
+</html>
