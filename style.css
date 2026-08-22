@@ -9,6 +9,7 @@
 :root {
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
+    --primary-light: #dbeafe;
     --dark: #111827;
     --text: #374151;
     --light-text: #6b7280;
@@ -17,6 +18,48 @@
     --border: #e5e7eb;
     --danger: #dc2626;
     --success: #16a34a;
+}
+
+
+/* Dark mode palette. Toggled via data-theme="dark" on <html>.
+   Most components already read colors from these variables, so
+   flipping this block re-themes the site without touching every rule. */
+[data-theme="dark"] {
+    --dark: #f1f5f9;
+    --text: #cbd5e1;
+    --light-text: #94a3b8;
+    --background: #0f172a;
+    --white: #1e293b;
+    --border: #334155;
+}
+
+
+[data-theme="dark"] .search-box input,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea {
+    background: var(--white);
+    color: var(--text);
+}
+
+
+[data-theme="dark"] .markdown-preview {
+    background: #16213a;
+}
+
+
+[data-theme="dark"] .secondary-btn {
+    background: #334155;
+    color: var(--dark);
+}
+
+
+[data-theme="dark"] .secondary-btn:hover {
+    background: #3f4c63;
+}
+
+
+body {
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 
@@ -96,6 +139,37 @@ textarea {
     font-weight: 800;
 
     color: var(--dark);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.logo-img {
+    height: 34px;
+
+    width: auto;
+
+    display: block;
+}
+
+
+.auth-logo {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+}
+
+
+.auth-logo .logo-img {
+    height: 30px;
 }
 
 
@@ -273,10 +347,108 @@ nav a:hover {
 }
 
 
+/* Rotating taglines: three stacked lines cross-fade in a loop.
+   Pure CSS, no JS required. */
+.tagline-rotator {
+    position: relative;
+
+    min-height: 1.7em;
+
+    margin-bottom: 30px;
+}
+
+
+.tagline-rotator span {
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    opacity: 0;
+
+    animation: taglineFade 13.5s infinite;
+}
+
+
+.tagline-rotator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+
+.tagline-rotator span:nth-child(2) {
+    animation-delay: 4.5s;
+}
+
+
+.tagline-rotator span:nth-child(3) {
+    animation-delay: 9s;
+}
+
+
+@keyframes taglineFade {
+
+    0% {
+        opacity: 0;
+    }
+
+    4% {
+        opacity: 1;
+    }
+
+    29% {
+        opacity: 1;
+    }
+
+    33% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tagline-rotator span {
+        animation: none;
+        position: static;
+        opacity: 1;
+    }
+
+    .tagline-rotator span:not(:first-child) {
+        display: none;
+    }
+
+}
+
+
 .hero .primary-btn {
     background: white;
 
     color: var(--primary);
+
+    padding: 17px 42px;
+
+    font-size: 1.05rem;
+
+    border-radius: 9px;
+
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+
+.hero .primary-btn:hover {
+    background: var(--primary-light);
+
+    color: var(--primary-dark);
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
 }
 
 
@@ -349,7 +521,7 @@ nav a:hover {
 
 
 .blog-card {
-    background: white;
+    background: var(--white);
 
     border: 1px solid var(--border);
 
@@ -357,7 +529,11 @@ nav a:hover {
 
     padding: 25px;
 
-    transition: 0.2s;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        border-color 0.2s,
+        background 0.2s;
 
     display: flex;
 
@@ -370,6 +546,10 @@ nav a:hover {
 .blog-card:hover {
     transform: translateY(-4px);
 
+    border-color: var(--primary);
+
+    background: var(--primary-light);
+
     box-shadow:
         0 10px 25px rgba(
             0,
@@ -377,6 +557,11 @@ nav a:hover {
             0,
             0.08
         );
+}
+
+
+[data-theme="dark"] .blog-card:hover {
+    background: #24304a;
 }
 
 
@@ -863,6 +1048,411 @@ nav a:hover {
 
 
 /* =========================================
+   ACCOUNT MENU
+========================================= */
+
+.account-menu {
+    position: relative;
+}
+
+
+.account-btn {
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    transition: 0.2s;
+}
+
+
+.account-btn:hover {
+    background: var(--primary-dark);
+}
+
+
+.account-btn svg {
+    width: 18px;
+
+    height: 18px;
+}
+
+
+.account-dropdown {
+    position: absolute;
+
+    right: 0;
+
+    top: calc(100% + 12px);
+
+    width: 235px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 14px 32px rgba(
+            0,
+            0,
+            0,
+            0.14
+        );
+
+    padding: 10px;
+
+    z-index: 200;
+
+    visibility: hidden;
+
+    opacity: 0;
+
+    transform: translateY(-8px);
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0.18s;
+}
+
+
+.account-dropdown.open {
+    visibility: visible;
+
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+.account-dropdown-header {
+    padding: 6px 10px 12px;
+
+    font-weight: 700;
+
+    color: var(--dark);
+
+    border-bottom: 1px solid var(--border);
+
+    margin-bottom: 8px;
+
+    font-size: 0.9rem;
+}
+
+
+.account-dropdown-section {
+    padding: 0 10px 12px;
+
+    border-bottom: 1px solid var(--border);
+
+    margin-bottom: 8px;
+}
+
+
+.account-dropdown-label {
+    display: block;
+
+    font-size: 0.72rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+
+    color: var(--light-text);
+
+    margin-bottom: 8px;
+
+    font-weight: 700;
+}
+
+
+.theme-toggle {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    border: 1px solid var(--border);
+
+    background: var(--background);
+
+    padding: 9px 10px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 0.88rem;
+
+    font-weight: 600;
+
+    color: var(--text);
+
+    transition: 0.2s;
+}
+
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+}
+
+
+.account-dropdown-item {
+    display: block;
+
+    width: 100%;
+
+    text-align: left;
+
+    border: none;
+
+    background: transparent;
+
+    padding: 9px 10px;
+
+    border-radius: 7px;
+
+    font-size: 0.92rem;
+
+    font-weight: 600;
+
+    color: var(--text);
+
+    cursor: pointer;
+}
+
+
+.account-dropdown-item:hover {
+    background: var(--background);
+}
+
+
+.account-dropdown-item.danger {
+    color: var(--danger);
+}
+
+
+/* =========================================
+   FEATURED MARQUEE
+========================================= */
+
+.featured-marquee {
+    background: var(--white);
+
+    padding: 40px 0 6px;
+
+    overflow: hidden;
+}
+
+
+.featured-marquee-title {
+    color: var(--dark);
+
+    font-size: 1.3rem;
+
+    margin-bottom: 18px;
+}
+
+
+.marquee-viewport {
+    position: relative;
+
+    overflow: hidden;
+
+    -webkit-mask-image:
+        linear-gradient(
+            to right,
+            transparent,
+            black 8%,
+            black 92%,
+            transparent
+        );
+
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent,
+            black 8%,
+            black 92%,
+            transparent
+        );
+}
+
+
+.marquee-track {
+    display: flex;
+
+    gap: 20px;
+
+    width: max-content;
+
+    padding: 4px 20px 24px;
+
+    animation: marqueeScroll 42s linear infinite;
+}
+
+
+.marquee-viewport:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+
+@keyframes marqueeScroll {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+
+}
+
+
+.marquee-track .blog-card {
+    flex: 0 0 300px;
+
+    min-height: 240px;
+
+    cursor: pointer;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .marquee-track {
+        animation: none;
+
+        overflow-x: auto;
+    }
+
+}
+
+
+/* =========================================
+   BACKGROUND ILLUSTRATIONS
+========================================= */
+
+.blog-section {
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.bg-illustrations {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+
+.bg-illustrations svg {
+    position: absolute;
+
+    opacity: 0.06;
+}
+
+
+[data-theme="dark"] .bg-illustrations svg {
+    opacity: 0.1;
+}
+
+
+.blob-one {
+    top: -70px;
+
+    left: -90px;
+
+    width: 360px;
+
+    animation: driftOne 26s ease-in-out infinite alternate;
+}
+
+
+.blob-two {
+    bottom: -110px;
+
+    right: -70px;
+
+    width: 320px;
+
+    animation: driftTwo 32s ease-in-out infinite alternate;
+}
+
+
+@keyframes driftOne {
+
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(30px, 25px) rotate(12deg);
+    }
+
+}
+
+
+@keyframes driftTwo {
+
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-25px, -20px) rotate(-10deg);
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .bg-illustrations svg {
+        animation: none;
+    }
+
+}
+
+
+.section-header,
+#blogList,
+#emptyState {
+    position: relative;
+
+    z-index: 1;
+}
+
+
+/* =========================================
    FOOTER
 ========================================= */
 
@@ -959,6 +1549,18 @@ nav a:hover {
     .auth-card,
     .editor-form {
         padding: 25px;
+    }
+
+
+    .marquee-track .blog-card {
+        flex-basis: 240px;
+    }
+
+
+    .account-dropdown {
+        right: -10px;
+
+        width: 210px;
     }
 
 }

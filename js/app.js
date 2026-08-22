@@ -5,6 +5,8 @@
 
 let allBlogs = [];
 
+const MAX_MARQUEE_CARDS = 6;
+
 function stripMarkdown(text) {
     return text
         .replace(/[#*_>`-]/g, ' ')
@@ -21,6 +23,42 @@ function formatDate(dateString) {
     });
 }
 
+/** Builds a single blog card element. Used by both the main grid and the
+ *  featured marquee, so every card — wherever it appears — has identical
+ *  markup and the same click-to-read behavior. */
+function createBlogCard(blog) {
+    const preview = stripMarkdown(blog.content).slice(0, 140);
+
+    const card = document.createElement('div');
+    card.className = 'blog-card';
+    card.style.cursor = 'pointer';
+
+    const heading = document.createElement('h3');
+    heading.textContent = blog.title;
+
+    const excerpt = document.createElement('p');
+    excerpt.textContent = preview + (stripMarkdown(blog.content).length > 140 ? '…' : '');
+
+    const meta = document.createElement('div');
+    meta.className = 'blog-meta';
+
+    const author = document.createElement('span');
+    author.textContent = `${blog.username} · ${formatDate(blog.created_at)}`;
+
+    const readMore = document.createElement('span');
+    readMore.className = 'read-more';
+    readMore.textContent = 'Read more →';
+
+    meta.append(author, readMore);
+    card.append(heading, excerpt, meta);
+
+    card.addEventListener('click', () => {
+        window.location.href = `blog.html?id=${blog.id}`;
+    });
+
+    return card;
+}
+
 function renderBlogs(blogs) {
     const blogList = document.getElementById('blogList');
     const emptyState = document.getElementById('emptyState');
@@ -35,37 +73,36 @@ function renderBlogs(blogs) {
     emptyState.classList.add('hidden');
 
     blogs.forEach((blog) => {
-        const preview = stripMarkdown(blog.content).slice(0, 140);
-
-        const card = document.createElement('div');
-        card.className = 'blog-card';
-        card.style.cursor = 'pointer';
-
-        const heading = document.createElement('h3');
-        heading.textContent = blog.title;
-
-        const excerpt = document.createElement('p');
-        excerpt.textContent = preview + (stripMarkdown(blog.content).length > 140 ? '…' : '');
-
-        const meta = document.createElement('div');
-        meta.className = 'blog-meta';
-
-        const author = document.createElement('span');
-        author.textContent = `${blog.username} · ${formatDate(blog.created_at)}`;
-
-        const readMore = document.createElement('span');
-        readMore.className = 'read-more';
-        readMore.textContent = 'Read more →';
-
-        meta.append(author, readMore);
-        card.append(heading, excerpt, meta);
-
-        card.addEventListener('click', () => {
-            window.location.href = `blog.html?id=${blog.id}`;
-        });
-
-        blogList.appendChild(card);
+        blogList.appendChild(createBlogCard(blog));
     });
+}
+
+/**
+ * Populates the "Trending Now" marquee strip, if this page has one.
+ * The featured set is duplicated once back-to-back so a simple CSS
+ * -50% scroll loops seamlessly. This always reflects the full blog
+ * list, independent of the search box below — searching narrows the
+ * grid, not the featured strip.
+ */
+function renderFeaturedMarquee(blogs) {
+    const section = document.getElementById('featuredMarquee');
+    const track = document.getElementById('featuredMarqueeTrack');
+    if (!section || !track) return;
+
+    track.innerHTML = '';
+
+    if (blogs.length === 0) {
+        section.classList.add('hidden');
+        return;
+    }
+
+    const featured = blogs.slice(0, MAX_MARQUEE_CARDS);
+
+    [...featured, ...featured].forEach((blog) => {
+        track.appendChild(createBlogCard(blog));
+    });
+
+    section.classList.remove('hidden');
 }
 
 async function loadBlogs() {
@@ -73,9 +110,11 @@ async function loadBlogs() {
         const data = await apiFetch('blogs/get_all.php');
         allBlogs = data.blogs;
         renderBlogs(allBlogs);
+        renderFeaturedMarquee(allBlogs);
     } catch (err) {
         console.error('Failed to load blogs:', err);
         renderBlogs([]);
+        renderFeaturedMarquee([]);
     }
 }
 

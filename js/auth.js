@@ -2,7 +2,19 @@
  * auth.js
  * Shared authentication/session logic, loaded on every page before the
  * page-specific script (app.js / blog.js / editor.js).
+ *
+ * Also owns the shared chrome that lives in the navbar on every page:
+ * the account dropdown (open/close) and the dark-mode toggle. Neither
+ * depends on login state, so both run independently of Auth.init().
  */
+
+const THEME_KEY = 'blogspace-theme';
+
+// Applied immediately, before anything else on the page runs, so there's
+// no flash of the light theme before this script would otherwise get to it.
+if (localStorage.getItem(THEME_KEY) === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
 
 const API_BASE = 'backend';
 
@@ -49,6 +61,82 @@ function showMessage(el, text, type = 'error') {
     el.className = `message ${type}`;
     el.classList.remove('hidden');
 }
+
+function isDarkMode() {
+    return document.documentElement.getAttribute('data-theme') === 'dark';
+}
+
+/** Keeps every .theme-toggle button on the page (there's normally just
+ *  one) in sync with the current theme. */
+function syncThemeToggleButtons() {
+    const dark = isDarkMode();
+    document.querySelectorAll('.theme-toggle').forEach((btn) => {
+        const icon = btn.querySelector('.theme-toggle-icon');
+        const text = btn.querySelector('.theme-toggle-text');
+        if (icon) icon.textContent = dark ? '☀️' : '🌙';
+        if (text) text.textContent = dark ? 'Light Mode' : 'Dark Mode';
+    });
+}
+
+/** Wires up the dark-mode toggle button(s) inside the account dropdown. */
+function initThemeToggles() {
+    document.querySelectorAll('.theme-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            if (isDarkMode()) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem(THEME_KEY, 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem(THEME_KEY, 'dark');
+            }
+            syncThemeToggleButtons();
+        });
+    });
+    syncThemeToggleButtons();
+}
+
+/** Wires up open/close behavior for the account-menu dropdown(s) on this
+ *  page: toggle on click, close on outside click or Escape. */
+function initAccountMenus() {
+    document.querySelectorAll('.account-menu').forEach((menu) => {
+        const btn = menu.querySelector('.account-btn');
+        const dropdown = menu.querySelector('.account-dropdown');
+        if (!btn || !dropdown) return;
+
+        function close() {
+            dropdown.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const willOpen = !dropdown.classList.contains('open');
+            document
+                .querySelectorAll('.account-dropdown.open')
+                .forEach((d) => d.classList.remove('open'));
+            if (willOpen) dropdown.classList.add('open');
+            btn.setAttribute('aria-expanded', String(willOpen));
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target)) close();
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document
+                .querySelectorAll('.account-dropdown.open')
+                .forEach((d) => d.classList.remove('open'));
+            document
+                .querySelectorAll('.account-btn[aria-expanded="true"]')
+                .forEach((b) => b.setAttribute('aria-expanded', 'false'));
+        }
+    });
+}
+
+initThemeToggles();
+initAccountMenus();
 
 const Auth = {
     user: null,

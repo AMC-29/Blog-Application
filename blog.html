@@ -27,6 +27,7 @@
         <div class="container nav-container">
 
             <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="BlogSpace logo" class="logo-img" onerror="this.remove()">
                 Blog<span>Space</span>
             </a>
 
@@ -55,9 +56,32 @@
                         Write Blog
                     </a>
 
-                    <button id="logoutBtn" class="logout-btn">
-                        Logout
-                    </button>
+                    <div class="account-menu">
+                        <button id="accountMenuBtn" class="account-btn" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </button>
+
+                        <div id="accountDropdown" class="account-dropdown">
+                            <div class="account-dropdown-header">
+                                My Account
+                            </div>
+
+                            <div class="account-dropdown-section">
+                                <span class="account-dropdown-label">Preferences</span>
+
+                                <button type="button" class="theme-toggle">
+                                    <span class="theme-toggle-icon">🌙</span>
+                                    <span class="theme-toggle-text">Dark Mode</span>
+                                </button>
+                            </div>
+
+                            <a href="editor.html" class="account-dropdown-item">Write Blog</a>
+                            <button id="logoutBtn" class="account-dropdown-item danger">Logout</button>
+                        </div>
+                    </div>
 
                 </span>
 
