@@ -1,11 +1,4 @@
 <?php
-/**
- * GET /backend/auth/me.php
- *
- * Called by the frontend on every page load. Reports whether the
- * visitor is logged in and hands over the CSRF token their browser
- * needs to attach to future POST/PUT/DELETE requests.
- */
 
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';

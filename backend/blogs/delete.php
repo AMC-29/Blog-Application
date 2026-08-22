@@ -1,9 +1,4 @@
 <?php
-/**
- * DELETE /backend/blogs/delete.php
- * Body: { id }
- * Requires: logged-in session, and the blog must belong to that user.
- */
 
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';

@@ -1,9 +1,4 @@
 <?php
-/**
- * POST /backend/blogs/create.php
- * Body: { title, content }
- * Requires: logged-in session
- */
 
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';

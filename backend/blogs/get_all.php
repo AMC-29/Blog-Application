@@ -1,8 +1,4 @@
 <?php
-/**
- * GET /backend/blogs/get_all.php
- * Public. Returns every blog, newest first, with the author's username.
- */
 
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';

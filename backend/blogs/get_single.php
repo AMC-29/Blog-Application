@@ -1,8 +1,4 @@
 <?php
-/**
- * GET /backend/blogs/get_single.php?id=123
- * Public.
- */
 
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';

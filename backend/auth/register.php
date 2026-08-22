@@ -1,8 +1,4 @@
 <?php
-/**
- * POST /backend/auth/register.php
- * Body: { name, email, password }
- */
 
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
