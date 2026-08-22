@@ -1,6 +1,3 @@
--- BlogSpace database schema
--- Import this in phpMyAdmin (or `mysql -u root -p < blog.sql`) before running the app.
-
 CREATE DATABASE IF NOT EXISTS blogspace
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
