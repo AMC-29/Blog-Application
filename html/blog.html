@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BlogSpace - Blog</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo">
+                Blog<span>Space</span>
+            </a>
+
+            <nav>
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <span id="guestLinks">
+
+                    <a href="login.html">
+                        Login
+                    </a>
+
+                    <a href="register.html" class="nav-button">
+                        Register
+                    </a>
+
+                </span>
+
+
+                <span id="userLinks" class="hidden">
+
+                    <a href="editor.html">
+                        Write Blog
+                    </a>
+
+                    <button id="logoutBtn" class="logout-btn">
+                        Logout
+                    </button>
+
+                </span>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- Blog Content -->
+
+    <main class="container single-blog">
+
+        <a href="index.html" class="back-link">
+            ← Back to Blogs
+        </a>
+
+
+        <article id="blogContent">
+
+            <!-- JavaScript loads blog here -->
+
+        </article>
+
+
+        <div id="blogActions" class="blog-actions hidden">
+
+            <a
+                id="editBlogBtn"
+                class="secondary-btn"
+            >
+                Edit Blog
+            </a>
+
+            <button
+                id="deleteBlogBtn"
+                class="danger-btn"
+            >
+                Delete Blog
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 BlogSpace. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/auth.js"></script>
+    <script src="js/blog.js"></script>
+
+</body>
+</html>
