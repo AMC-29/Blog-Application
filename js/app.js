@@ -23,9 +23,6 @@ function formatDate(dateString) {
     });
 }
 
-/** Builds a single blog card element. Used by both the main grid and the
- *  featured marquee, so every card — wherever it appears — has identical
- *  markup and the same click-to-read behavior. */
 function createBlogCard(blog) {
     const preview = stripMarkdown(blog.content).slice(0, 140);
 
@@ -77,13 +74,6 @@ function renderBlogs(blogs) {
     });
 }
 
-/**
- * Populates the "Trending Now" marquee strip, if this page has one.
- * The featured set is duplicated once back-to-back so a simple CSS
- * -50% scroll loops seamlessly. This always reflects the full blog
- * list, independent of the search box below — searching narrows the
- * grid, not the featured strip.
- */
 function renderFeaturedMarquee(blogs) {
     const section = document.getElementById('featuredMarquee');
     const track = document.getElementById('featuredMarqueeTrack');

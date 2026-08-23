@@ -1,31 +1,11 @@
-/**
- * auth.js
- * Shared authentication/session logic, loaded on every page before the
- * page-specific script (app.js / blog.js / editor.js).
- *
- * Also owns the shared chrome that lives in the navbar on every page:
- * the account dropdown (open/close) and the dark-mode toggle. Neither
- * depends on login state, so both run independently of Auth.init().
- */
-
 const THEME_KEY = 'blogspace-theme';
 
-// Applied immediately, before anything else on the page runs, so there's
-// no flash of the light theme before this script would otherwise get to it.
 if (localStorage.getItem(THEME_KEY) === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
 }
 
 const API_BASE = 'backend';
 
-/**
- * Wrapper around fetch() that:
- *  - always sends/receives JSON
- *  - includes the PHP session cookie
- *  - attaches the CSRF token header on state-changing requests
- *  - throws with the server's message on failure, so callers can just
- *    catch(err) and show err.message
- */
 async function apiFetch(path, { method = 'GET', body = null } = {}) {
     const headers = { 'Content-Type': 'application/json' };
 
@@ -215,9 +195,6 @@ const Auth = {
 
 Auth.init();
 
-// ---------------------------------------------------------------------
-// Register page (only present on register.html)
-// ---------------------------------------------------------------------
 const registerForm = document.getElementById('registerForm');
 
 if (registerForm) {
@@ -256,9 +233,6 @@ if (registerForm) {
     });
 }
 
-// ---------------------------------------------------------------------
-// Login page (only present on login.html)
-// ---------------------------------------------------------------------
 const loginForm = document.getElementById('loginForm');
 
 if (loginForm) {

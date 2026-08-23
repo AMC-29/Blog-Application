@@ -1,20 +1,9 @@
-/**
- * editor.js
- * Blog creation / editing page. Requires a logged-in session.
- */
-
-/** Escapes HTML special characters so raw markdown can never inject tags. */
 function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
 }
 
-/**
- * Converts a small, safe subset of Markdown (#, ##, ###, **bold**,
- * *italic*, "- " lists, paragraphs) into HTML. The input is HTML-escaped
- * first, so the output can be inserted with innerHTML without risk of XSS.
- */
 function renderMarkdown(raw) {
     const escaped = escapeHtml(raw);
     const lines = escaped.split('\n');
