@@ -86,9 +86,6 @@
     </section>
 
 
-    <!-- Featured Marquee: auto-populated from the cards already rendered
-         into #blogList below, so it always mirrors real data. Stays
-         hidden until there's at least one card to show. -->
     <section id="featuredMarquee" class="featured-marquee hidden">
         <div class="container">
             <h3 class="featured-marquee-title">Trending Now</h3>
@@ -104,13 +101,8 @@
     <main class="container blog-section">
 
         <div class="bg-illustrations" aria-hidden="true">
-            <svg class="blob-one" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#2563eb" d="M45.7,-58.4C58.9,-49.7,69.2,-35.6,73.6,-19.8C78.1,-4,76.7,13.5,69.5,28.2C62.3,42.9,49.3,54.8,34.6,62.1C19.9,69.4,3.5,72.1,-12.8,70.1C-29.1,68.1,-45.3,61.4,-56.8,49.6C-68.3,37.8,-75.1,20.9,-75.9,3.4C-76.7,-14.1,-71.5,-32.2,-60.5,-45.1C-49.5,-58,-32.7,-65.7,-15.9,-67.6C0.9,-69.5,32.5,-67.1,45.7,-58.4Z" transform="translate(100 100)" />
-            </svg>
-
-            <svg class="blob-two" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#6b7280" d="M39.4,-51.9C50.2,-44.4,58,-32.2,62.6,-18.5C67.2,-4.8,68.6,10.4,63.6,23.3C58.6,36.2,47.2,46.8,34.1,54.5C21,62.2,6.2,67,-9.4,68.4C-25,69.8,-41.4,67.8,-52.9,58.7C-64.4,49.6,-71,33.4,-73.2,16.5C-75.4,-0.4,-73.2,-18,-64.9,-31.8C-56.6,-45.6,-42.2,-55.6,-27.6,-62.1C-13,-68.6,1.8,-71.6,15.9,-68.5C30,-65.4,39.4,-51.9,39.4,-51.9Z" transform="translate(100 100)" />
-            </svg>
+            <img src="images\illustrations\blob1.svg" class="blob-one" alt="Blob illustration">
+            <img src="images\illustrations\blob2.svg" class="blob-two" alt="Blob illustration">
         </div>
 
         <div class="section-header">
@@ -157,7 +149,57 @@
 
     <footer class="footer">
 
-        <div class="container">
+        <div class="container footer-top">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="footer-logo">
+                    <img src="images\auth\logo.png" alt="BlogSpace logo" class="logo-img" onerror="this.remove()">
+                    Blog<span>Space</span>
+                </a>
+
+                <p>
+                    A community for writers and readers who love a good story.
+                </p>
+
+            </div>
+
+
+            <div class="footer-col">
+
+                <h4>Contact</h4>
+
+                <a href="mailto:hello@blogspace.com">
+                    hello@blogspace.com
+                </a>
+
+                <a href="tel:+94112345678">
+                    +94 11 234 5678
+                </a>
+
+            </div>
+
+
+            <div class="footer-col">
+
+                <h4>Legal</h4>
+
+                <span class="footer-link-disabled">
+                    Privacy Policy
+                    <em>Coming soon</em>
+                </span>
+
+                <span class="footer-link-disabled">
+                    Copyright Notice
+                    <em>Coming soon</em>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="container footer-bottom">
 
             <p>
                 © 2026 BlogSpace. All rights reserved.

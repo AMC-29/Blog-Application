@@ -18,12 +18,10 @@
     --border: #e5e7eb;
     --danger: #dc2626;
     --success: #16a34a;
+    --blob-opacity: 0.05;
 }
 
 
-/* Dark mode palette. Toggled via data-theme="dark" on <html>.
-   Most components already read colors from these variables, so
-   flipping this block re-themes the site without touching every rule. */
 [data-theme="dark"] {
     --dark: #f1f5f9;
     --text: #cbd5e1;
@@ -31,6 +29,7 @@
     --background: #0f172a;
     --white: #1e293b;
     --border: #334155;
+    --blob-opacity: 0.1;
 }
 
 
@@ -744,6 +743,35 @@ nav a:hover {
 }
 
 
+/* =========================================
+   PAGE BACKGROUND
+   Reuses the auth photo carousel on pages that
+   scroll (the editor), instead of the fixed-
+   height, flex-centered auth layout above.
+========================================= */
+
+.page-bg .background-carousel {
+    position: fixed;
+}
+
+
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(248, 250, 252, 0.85);
+
+    z-index: 1;
+}
+
+
+.page-bg .editor-page {
+    position: relative;
+
+    z-index: 2;
+}
+
+
 .auth-logo {
     text-align: center;
 
@@ -976,6 +1004,22 @@ nav a:hover {
 
 .editor-header {
     margin-bottom: 30px;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    backdrop-filter: blur(8px);
+
+    padding: 22px 28px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 25px rgba(
+            17,
+            24,
+            39,
+            0.08
+        );
 }
 
 
@@ -992,13 +1036,21 @@ nav a:hover {
 
 
 .editor-form {
-    background: white;
+    background: rgba(255, 255, 255, 0.97);
 
     padding: 35px;
 
     border-radius: 12px;
 
     border: 1px solid var(--border);
+
+    box-shadow:
+        0 15px 40px rgba(
+            17,
+            24,
+            39,
+            0.12
+        );
 }
 
 
@@ -1371,40 +1423,81 @@ nav a:hover {
     z-index: 0;
 
     pointer-events: none;
+
+    overflow: hidden;
 }
 
 
-.bg-illustrations svg {
+.bg-illustrations img {
     position: absolute;
 
-    opacity: 0.06;
+    opacity: 0;
 }
 
 
-[data-theme="dark"] .bg-illustrations svg {
-    opacity: 0.1;
-}
-
-
+/* Widths scale with the viewport instead of a fixed px value, so the
+   blobs shrink to fit narrower blog-section widths instead of
+   overflowing or dwarfing the card grid on smaller screens. */
 .blob-one {
-    top: -70px;
+    top: -60px;
 
-    left: -90px;
+    left: -70px;
 
-    width: 360px;
+    width: clamp(140px, 34vw, 380px);
 
-    animation: driftOne 26s ease-in-out infinite alternate;
+    animation-name: blobShuffle, driftOne;
+    animation-duration: 12s, 26s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-direction: normal, alternate;
+    animation-fill-mode: both, none;
+    animation-delay: 0s, 0s;
 }
 
 
 .blob-two {
-    bottom: -110px;
+    bottom: -90px;
 
-    right: -70px;
+    right: -55px;
 
-    width: 320px;
+    width: clamp(120px, 30vw, 340px);
 
-    animation: driftTwo 32s ease-in-out infinite alternate;
+    animation-name: blobShuffle, driftTwo;
+    animation-duration: 12s, 32s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-direction: normal, alternate;
+    animation-fill-mode: both, none;
+    animation-delay: 6s, 0s;
+}
+
+
+/* Fades one blob in, holds, fades it out — then, because blob-two's
+   animation-delay is exactly half the 12s cycle, there's a clean 1s
+   beat where neither is visible before the other fades in. Only one
+   blob is ever on screen at a time. */
+@keyframes blobShuffle {
+
+    0% {
+        opacity: 0;
+    }
+
+    8.3% {
+        opacity: var(--blob-opacity);
+    }
+
+    33.3% {
+        opacity: var(--blob-opacity);
+    }
+
+    41.7% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
 }
 
 
@@ -1436,8 +1529,10 @@ nav a:hover {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .bg-illustrations svg {
+    .bg-illustrations img {
         animation: none;
+
+        opacity: var(--blob-opacity);
     }
 
 }
@@ -1461,11 +1556,136 @@ nav a:hover {
 
     color: #d1d5db;
 
-    padding: 25px 0;
+    padding: 45px 0 0;
+
+    margin-top: 30px;
+}
+
+
+.footer-top {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+
+    gap: 35px;
+
+    padding-bottom: 30px;
+}
+
+
+.footer-brand {
+    max-width: 300px;
+
+    flex: 1 1 220px;
+}
+
+
+.footer-logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 1.4rem;
+
+    font-weight: 800;
+
+    color: white;
+}
+
+
+.footer-logo .logo-img {
+    height: 28px;
+}
+
+
+.footer-logo span {
+    color: #60a5fa;
+}
+
+
+.footer-brand p {
+    margin-top: 10px;
+
+    color: #9ca3af;
+
+    font-size: 0.9rem;
+}
+
+
+.footer-col {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    flex: 1 1 160px;
+}
+
+
+.footer-col h4 {
+    color: white;
+
+    font-size: 0.85rem;
+
+    margin-bottom: 4px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.footer-col a {
+    color: #d1d5db;
+
+    font-size: 0.9rem;
+
+    transition: 0.2s;
+}
+
+
+.footer-col a:hover {
+    color: white;
+}
+
+
+.footer-link-disabled {
+    color: #9ca3af;
+
+    font-size: 0.9rem;
+
+    cursor: not-allowed;
+}
+
+
+.footer-link-disabled em {
+    display: block;
+
+    font-style: normal;
+
+    font-size: 0.72rem;
+
+    color: #6b7280;
+
+    margin-top: 2px;
+}
+
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    padding: 18px 0;
 
     text-align: center;
 
-    margin-top: 30px;
+    font-size: 0.85rem;
+
+    color: #9ca3af;
 }
 
 
@@ -1549,6 +1769,28 @@ nav a:hover {
     .auth-card,
     .editor-form {
         padding: 25px;
+    }
+
+
+    .editor-header {
+        padding: 18px 20px;
+    }
+
+
+    .footer-top {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+
+    .footer-brand {
+        max-width: none;
+    }
+
+
+    .footer-logo {
+        justify-content: center;
     }
 
 
